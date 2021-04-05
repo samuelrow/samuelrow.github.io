@@ -229,7 +229,8 @@ waffle(
   rows = 11,
   title = &quot;Nebraska vs Ohio State: rushing defense&quot;,
   xlab = &quot;1 square = 1000 yard&quot;,
-  colors = c(&quot;red&quot;, &quot;grey&quot;))</code></pre>
+  colors = c(&quot;red&quot;, &quot;grey&quot;)) + labs(title=&quot;Nebraska vs Ohio State in rushing defense&quot;, subtitle=&quot;The Huskers stuffed the run against one of the top teamis in the Big Ten.&quot;, caption=&quot;Source: NCAA | Graphic by Samuel Rowland&quot;) + 
+  theme()</code></pre>
 <p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>passing &lt;- c(&quot;Nebraska&quot;=1736, &quot;Ohio State&quot;=1965)
 
@@ -238,7 +239,8 @@ waffle(
   rows = 10,
   title = &quot;Nebraska vs Ohio State: passing defense&quot;,
   xlab = &quot;1 square = 1000 yard&quot;,
-  colors = c(&quot;red&quot;, &quot;grey&quot;))  </code></pre>
+  colors = c(&quot;red&quot;, &quot;grey&quot;))  + labs(title=&quot;Nebraska vs Ohio State in passing defense&quot;, subtitle=&quot;Ohio State dominated with multiple explosive weapons on offense.&quot;, caption=&quot;Source: NCAA | Graphic by Samuel Rowland&quot;) + 
+  theme()</code></pre>
 <p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
 <pre class="r"><code>library(waffle)</code></pre>
 <pre class="r"><code>nu &lt;- c(&quot;DefRushingYds&quot; = 1356, &quot;DefPassingYds&quot; = 1736)
