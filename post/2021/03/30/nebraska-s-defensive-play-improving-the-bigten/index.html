@@ -242,32 +242,8 @@ waffle(
   colors = c(&quot;red&quot;, &quot;grey&quot;))  + labs(title=&quot;Nebraska vs Ohio State in passing defense&quot;, subtitle=&quot;Ohio State dominated with multiple explosive weapons on offense.&quot;, caption=&quot;Source: NCAA | Graphic by Samuel Rowland&quot;) + 
   theme()</code></pre>
 <p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
-<pre class="r"><code>library(waffle)</code></pre>
-<pre class="r"><code>nu &lt;- c(&quot;DefRushingYds&quot; = 1356, &quot;DefPassingYds&quot; = 1736)
-
-ohiost &lt;- c(&quot;DefRushingYds&quot; = 624, &quot;DefPassingYds&quot; = 1965)</code></pre>
-<pre class="r"><code>rushing &lt;- c(&quot;Nebraska&quot;=1356, &quot;Ohio State&quot;=624)
-
-waffle(
-  rushing/5,
-  rows = 10,
-  title = &quot;Nebraska vs Ohio State: rushing defense&quot;,
-  xlab = &quot;1 square = 1000 yard&quot;,
-  colors = c(&quot;red&quot;, &quot;grey&quot;))</code></pre>
-<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<pre class="r"><code>passing &lt;- c(&quot;Nebraska&quot;=1736, &quot;Ohio State&quot;=1965)
-
-waffle(
-  passing/10,
-  rows = 10,
-  title = &quot;Nebraska vs Ohio State: passing defense&quot;,
-  xlab = &quot;1 square = 1000 yard&quot;,
-  colors = c(&quot;red&quot;, &quot;grey&quot;))  </code></pre>
-<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
-<pre class="r"><code>pdf(&quot;nebraskawaffle.png&quot;)</code></pre>
+<pre class="r"><code>library()</code></pre>
 <p>Based on the two charts, Nebraska clearly had dominated Ohio State in terms of rushing defense and the yards that they had given up.However, the clear discrepancy lies is in the fact that Ohio State dominated the passing defense yards statistic. It’s pretty obvious that Nebraska has to get better in this area in future seasons in order for the program to stay relevant. Nebraska hasn’t done a good job in the last few years of defending the pass. It’s why we lose games often, and have a losing record as a result of poor defense.</p>
-<p><img src="Screen%20Shot%202021-04-04%20at%2011.15.58%20PM.png" /></p>
-<p><img src="Ohio%20State.png" /></p>
 <pre class="r"><code>library(tidyverse)
 
 library(kableExtra)</code></pre>
@@ -286,8 +262,105 @@ football &lt;- footballlogs20 %&gt;%
             DefRushingYds=sum(DefRushingYds))  %&gt;%      
            arrange(desc(DefPassingYds)) %&gt;% arrange(desc(DefRushingYds)) %&gt;% ungroup() %&gt;% top_n(14)</code></pre>
 <pre><code>## Selecting by DefRushingYds</code></pre>
+<pre class="r"><code>  football %&gt;%
+  kable(escape=F) %&gt;% 
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;)) %&gt;%
+  row_spec(1, bold = T, color = &quot;white&quot;, background = &quot;#FBB93C&quot;) %&gt;%
+  column_spec(1, bold=T) %&gt;% labs(title=&quot; Nebraska is middle of the pack in terms of passing defense&quot;, subtitle=&quot; However, Nebraska was stout in the run.&quot;, caption=&quot;Source: NCAA | Graphic by Samuel Rowland&quot;)  </code></pre>
+<pre><code>## [[1]]
+## &lt;table class=&quot;table table-striped table-condensed&quot; style=&quot;margin-left: auto; margin-right: auto;&quot;&gt;
+##  &lt;thead&gt;
+##   &lt;tr&gt;
+##    &lt;th style=&quot;text-align:left;&quot;&gt; TeamFull &lt;/th&gt;
+##    &lt;th style=&quot;text-align:right;&quot;&gt; DefPassingYds &lt;/th&gt;
+##    &lt;th style=&quot;text-align:right;&quot;&gt; DefRushingYds &lt;/th&gt;
+##   &lt;/tr&gt;
+##  &lt;/thead&gt;
+## &lt;tbody&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;color: white !important;background-color: #FBB93C !important;font-weight: bold;&quot;&gt; Rutgers Scarlet Knights &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;font-weight: bold;color: white !important;background-color: #FBB93C !important;&quot;&gt; 2209 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;font-weight: bold;color: white !important;background-color: #FBB93C !important;&quot;&gt; 1855 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Illinois Fighting Illini &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1897 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1841 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Minnesota Golden Gophers &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1461 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1447 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Nebraska Cornhuskers &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1736 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1356 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Northwestern Wildcats &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1758 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1313 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Penn State Nittany Lions &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1787 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1167 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Maryland Terrapins &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1000 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1146 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Michigan State Spartans &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1676 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1101 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Indiana Hoosiers &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1928 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1097 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Michigan Wolverines &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1533 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1073 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Purdue Boilermakers &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1525 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 869 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Iowa Hawkeyes &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1649 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 861 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Wisconsin Badgers &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1426 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 673 &lt;/td&gt;
+##   &lt;/tr&gt;
+##   &lt;tr&gt;
+##    &lt;td style=&quot;text-align:left;font-weight: bold;&quot;&gt; Ohio State Buckeyes &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 1965 &lt;/td&gt;
+##    &lt;td style=&quot;text-align:right;&quot;&gt; 624 &lt;/td&gt;
+##   &lt;/tr&gt;
+## &lt;/tbody&gt;
+## &lt;/table&gt;
+## $title
+## [1] &quot; Nebraska is middle of the pack in terms of passing defense&quot;
+## 
+## $subtitle
+## [1] &quot; However, Nebraska was stout in the run.&quot;
+## 
+## $caption
+## [1] &quot;Source: NCAA | Graphic by Samuel Rowland&quot;
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;labels&quot;</code></pre>
 <p>Finally, I made a table that documents Nebraska’s defensive passing yards and the statistic of defensive rushing yards. Additionally, I highlighted and tried to confirm where Nebraska was with their defense in comparison to the rest of the Big Ten. This provides a marker of where Nebraska needs to focus its efforts in order to succeed in the Big Ten. Lets look at the plot down below and talk about it.</p>
-<p><img src="nebraska%202.png" /></p>
 <p>While the plot does a good job of representing Nebraska as one of the teams that was in the middle of the road when it comes to its stature in the defensive passing yards category, Nebraska had improved in the concept of rush defense yards. Nebraska’s defense has become stout against the run, which is something that the Huskers haven’t had success with in recent years. Hopefully Nebraska can develop a good defensive strategy with coach Erik Chinander in the upcoming season.</p>
 
 
