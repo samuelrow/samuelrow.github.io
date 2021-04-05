@@ -88,8 +88,6 @@
 
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
-<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
-<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
 
 
 <p>Nebraska football and its fan base hasn’t had much to cheer about as of late. The last three seasons of Scott Frost’s tenure has only resulted in around three to four wins each season. While last years win record was an improvement to 4 wins overall, it doesn’t place Nebraska anywhere near the conversation when it comes to championships. However, people watching at home this season saw the defense improve, which gives the fans reason for hope. But just how much did the defense improve, when there is so many good teams already in the Big Ten? Lets take a look.</p>
@@ -125,11 +123,12 @@
     TotalDefRushingYds = RushingAtt + RushingYds,
     TotalDefPassingYds = PassingAtt+PassingYds
     )</code></pre>
-<p>However, first we must quantify the relationship between defensive passing yards and its relationship to the game of football. Specifically, we will look at how passing yards changes according to the difference between defensive rushing and passing yards.</p>
-<p>When accounting for passing yards and its change over time, it is shown that this has a moderate relationship when it comes to football.</p>
+<p>However, first we must quantify the relationship between defensive passing yards and its relationship to the game of football. More specifically, I will talk about how passing yards changes according to the difference that is shown between the differential of defensive rushing yards and defensive passing yards. This will be accomplished by making scatter plots that show the not only show the correlation between the two values, but allow us to see how these values change the course of the football game. Now lets have a look at the plot.</p>
+<p>When I accounted for defensive passing yards and its change over time, the plot shows us that this has an indifferent relationship when it comes to football. However, several dots from the plot go upwards, which suggests a positive change between the differential.</p>
 <pre class="r"><code>ggplot(newcorrelations, aes(x = differential, y= DefPassingYds)) +
   geom_point()</code></pre>
-<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>We can see this positive relationship that is shown in the data by looking at its significance. This is around -0.02 according to the summary of the data. This shows that the value of defensive passing yards is statistically significant and matters in the Big Ten Conference and across other football leagues as well.</p>
 <pre class="r"><code>fit &lt;- lm(differential ~ DefPassingYds, data = newcorrelations)
 
 summary(fit)</code></pre>
@@ -151,10 +150,10 @@ summary(fit)</code></pre>
 ## Residual standard error: 86.26 on 1098 degrees of freedom
 ## Multiple R-squared:  0.6397, Adjusted R-squared:  0.6394 
 ## F-statistic:  1949 on 1 and 1098 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>While passing yards may be significant to the game of football</p>
+<p>However, while we have looked at defensive passing yards and its significance in the data, we must determine if the value of defensive rushing yards are significant as it relates to the Big Ten Conference. By just looking at the plot, we see that defensive rushing yards don’t play as big of a factor in the Big Ten. We can assume that this is the case because the dots in the plot are spread around the bottom of the data and are going downwards. This suggests that there is a negative relationship developing. We can check for sure in the summary of the data below, in its significance to the plot.</p>
 <pre class="r"><code>ggplot(newcorrelations, aes(x = differential, y= DefRushingYds)) +
   geom_point()</code></pre>
-<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code>fit &lt;- lm(differential ~ DefRushingYds, data = newcorrelations)
 
 summary(fit)</code></pre>
@@ -176,6 +175,8 @@ summary(fit)</code></pre>
 ## Residual standard error: 94.65 on 1098 degrees of freedom
 ## Multiple R-squared:  0.5662, Adjusted R-squared:  0.5658 
 ## F-statistic:  1433 on 1 and 1098 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>On first glance of the summary that is created by designing a model, we can accurately predict that the the relationship between defensive rushing yards and its importance to the Big Ten is not a big deciding factor when it comes to the outcome of the game. This is the case because it is very close to being significant. Sadly it is not as signifcant according to the data. It is just above the cutoff around 0.56. However, we can dispute the claim made by the data because defensive rushing yards are important to a good defense in the Big Ten.</p>
+<p>Now that we have analyzed the significance of defensive rushing yards and defensive passing yards as it relates to whether significance has been seen, we can look at how Nebraska fared against one of its top opponents in the Big Ten. As we all might exepect, it is Ohio State. I want to find the difference and compare these two teams and how they matched up in their game. This was possible, because I created two waffle charts which showed Ohio State’s defensive rushing totals. I also calculated their passing yard totals as it relates to Nebraska’s.</p>
 <pre class="r"><code>footballlogs20 &lt;- read_csv(&quot;footballlogs20.csv&quot;)</code></pre>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -214,12 +215,14 @@ football &lt;- footballlogs20 %&gt;%
   filter(TeamFull == &quot;Ohio State Buckeyes&quot;) %&gt;%
   group_by(TeamFull) %&gt;%
   summarise(DefPassingYds = sum(DefPassingYds)) %&gt;%
-  arrange(desc(DefPassingYds)) </code></pre>
-<pre class="r"><code>library(waffle)</code></pre>
-<pre class="r"><code>nu &lt;- c(&quot;DefRushingYds&quot; = 1356, &quot;DefPassingYds&quot; = 1736)
+  arrange(desc(DefPassingYds)) 
 
-ohiost &lt;- c(&quot;DefRushingYds&quot; = 624, &quot;DefPassingYds&quot; = 1965)</code></pre>
-<pre class="r"><code>rushing &lt;- c(&quot;Nebraska&quot;=1356, &quot;Ohio State&quot;=624)
+
+library(waffle)
+
+
+
+rushing &lt;- c(&quot;Nebraska&quot;=1356, &quot;Ohio State&quot;=624)
 
 waffle(
   rushing/10,
@@ -227,16 +230,42 @@ waffle(
   title = &quot;Nebraska vs Ohio State: rushing defense&quot;,
   xlab = &quot;1 square = 1000 yard&quot;,
   colors = c(&quot;red&quot;, &quot;grey&quot;))</code></pre>
-<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>passing &lt;- c(&quot;Nebraska&quot;=1736, &quot;Ohio State&quot;=1965)
 
 waffle(
   passing/10,
-  rows = 11,
+  rows = 10,
   title = &quot;Nebraska vs Ohio State: passing defense&quot;,
   xlab = &quot;1 square = 1000 yard&quot;,
+  colors = c(&quot;red&quot;, &quot;grey&quot;))  </code></pre>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<pre class="r"><code>library(waffle)</code></pre>
+<pre class="r"><code>nu &lt;- c(&quot;DefRushingYds&quot; = 1356, &quot;DefPassingYds&quot; = 1736)
+
+ohiost &lt;- c(&quot;DefRushingYds&quot; = 624, &quot;DefPassingYds&quot; = 1965)</code></pre>
+<pre class="r"><code>rushing &lt;- c(&quot;Nebraska&quot;=1356, &quot;Ohio State&quot;=624)
+
+waffle(
+  rushing/5,
+  rows = 10,
+  title = &quot;Nebraska vs Ohio State: rushing defense&quot;,
+  xlab = &quot;1 square = 1000 yard&quot;,
   colors = c(&quot;red&quot;, &quot;grey&quot;))</code></pre>
-<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>passing &lt;- c(&quot;Nebraska&quot;=1736, &quot;Ohio State&quot;=1965)
+
+waffle(
+  passing/10,
+  rows = 10,
+  title = &quot;Nebraska vs Ohio State: passing defense&quot;,
+  xlab = &quot;1 square = 1000 yard&quot;,
+  colors = c(&quot;red&quot;, &quot;grey&quot;))  </code></pre>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+<pre class="r"><code>pdf(&quot;nebraskawaffle.png&quot;)</code></pre>
+<p>Based on the two charts, Nebraska clearly had dominated Ohio State in terms of rushing defense and the yards that they had given up.However, the clear discrepancy lies is in the fact that Ohio State dominated the passing defense yards statistic. It’s pretty obvious that Nebraska has to get better in this area in future seasons in order for the program to stay relevant. Nebraska hasn’t done a good job in the last few years of defending the pass. It’s why we lose games often, and have a losing record as a result of poor defense.</p>
+<p><img src="Screen%20Shot%202021-04-04%20at%2011.15.58%20PM.png" /></p>
+<p><img src="Ohio%20State.png" /></p>
 <pre class="r"><code>library(tidyverse)
 
 library(kableExtra)</code></pre>
@@ -255,186 +284,9 @@ football &lt;- footballlogs20 %&gt;%
             DefRushingYds=sum(DefRushingYds))  %&gt;%      
            arrange(desc(DefPassingYds)) %&gt;% arrange(desc(DefRushingYds)) %&gt;% ungroup() %&gt;% top_n(14)</code></pre>
 <pre><code>## Selecting by DefRushingYds</code></pre>
-<pre class="r"><code>football %&gt;% kable() %&gt;% kable_styling()   </code></pre>
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-TeamFull
-</th>
-<th style="text-align:right;">
-DefPassingYds
-</th>
-<th style="text-align:right;">
-DefRushingYds
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Rutgers Scarlet Knights
-</td>
-<td style="text-align:right;">
-2209
-</td>
-<td style="text-align:right;">
-1855
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Illinois Fighting Illini
-</td>
-<td style="text-align:right;">
-1897
-</td>
-<td style="text-align:right;">
-1841
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Minnesota Golden Gophers
-</td>
-<td style="text-align:right;">
-1461
-</td>
-<td style="text-align:right;">
-1447
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Nebraska Cornhuskers
-</td>
-<td style="text-align:right;">
-1736
-</td>
-<td style="text-align:right;">
-1356
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Northwestern Wildcats
-</td>
-<td style="text-align:right;">
-1758
-</td>
-<td style="text-align:right;">
-1313
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Penn State Nittany Lions
-</td>
-<td style="text-align:right;">
-1787
-</td>
-<td style="text-align:right;">
-1167
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Maryland Terrapins
-</td>
-<td style="text-align:right;">
-1000
-</td>
-<td style="text-align:right;">
-1146
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Michigan State Spartans
-</td>
-<td style="text-align:right;">
-1676
-</td>
-<td style="text-align:right;">
-1101
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Indiana Hoosiers
-</td>
-<td style="text-align:right;">
-1928
-</td>
-<td style="text-align:right;">
-1097
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Michigan Wolverines
-</td>
-<td style="text-align:right;">
-1533
-</td>
-<td style="text-align:right;">
-1073
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Purdue Boilermakers
-</td>
-<td style="text-align:right;">
-1525
-</td>
-<td style="text-align:right;">
-869
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Iowa Hawkeyes
-</td>
-<td style="text-align:right;">
-1649
-</td>
-<td style="text-align:right;">
-861
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Wisconsin Badgers
-</td>
-<td style="text-align:right;">
-1426
-</td>
-<td style="text-align:right;">
-673
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Ohio State Buckeyes
-</td>
-<td style="text-align:right;">
-1965
-</td>
-<td style="text-align:right;">
-624
-</td>
-</tr>
-</tbody>
-</table>
-<pre class="r"><code>football %&gt;% 
-  kable() %&gt;% 
-  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;)) %&gt;%
-  row_spec(4, bold = T, color = &quot;white&quot;, background = &quot;#FBB93C&quot;) %&gt;%
-  column_spec(1,bold=T) %&gt;% 
-save_kable(&quot;nebraska.pdf&quot;)</code></pre>
-<pre><code>## Note that HTML color may not be displayed on PDF properly.</code></pre>
-<pre><code>## save_kable will have the best result with magick installed.</code></pre>
+<p>Finally, I made a table that documents Nebraska’s defensive passing yards and the statistic of defensive rushing yards. Additionally, I highlighted and tried to confirm where Nebraska was with their defense in comparison to the rest of the Big Ten. This provides a marker of where Nebraska needs to focus its efforts in order to succeed in the Big Ten. Lets look at the plot down below and talk about it.</p>
+<p><img src="nebraska%202.png" /></p>
+<p>While the plot does a good job of representing Nebraska as one of the teams that was in the middle of the road when it comes to its stature in the defensive passing yards category, Nebraska had improved in the concept of rush defense yards. Nebraska’s defense has become stout against the run, which is something that the Huskers haven’t had success with in recent years. Hopefully Nebraska can develop a good defensive strategy with coach Erik Chinander in the upcoming season.</p>
 
 
   <footer>
