@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Is Nebraska&#39;s Defensive Play Improving in the Big Ten? - Samuel Rowland&#39;s Sports Blog</title>
+    <meta property="og:title" content="Is Nebraska&#39;s Defensive Play Improving in the Big Ten? - Samuel Rowland&#39;s Sports Blog">
+    
+    <meta name="twitter:card" content="summary">
+
+    
+      
+    
+
+    
+      
+      <meta property="description" content="Nebraska football and its fan base hasn’t had much to cheer about as of late. The last three seasons of Scott Frost’s tenure has only resulted in around three to four wins each season. While last &amp;hellip;">
+      <meta property="og:description" content="Nebraska football and its fan base hasn’t had much to cheer about as of late. The last three seasons of Scott Frost’s tenure has only resulted in around three to four wins each season. While last &amp;hellip;">
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="post">
+    <header class="masthead">
+      <h1><a href="/">Samuel Rowland&#39;s Sports Blog</a></h1>
+
+<p class="tagline">A blog created by Samuel Rowland.</p>
+
+      <nav class="menu">
+  <input id="menu-check" type="checkbox" hidden/>
+  <label id="menu-label" for="menu-check" class="unselectable" hidden>
+    <span class="icon close-icon">✕</span>
+    <span class="icon open-icon">☰</span>
+    <span class="text">Menu</span>
+  </label>
+  <ul>
+  
+  
+  <li><a href="/">Home</a></li>
+  
+  <li><a href="/about/">About</a></li>
+  
+  <li><a href="/categories/">Categories</a></li>
+  
+  <li><a href="https://github.com/samuelrow/samuelrow.github.io">Github</a></li>
+  
+  <li><a href="https://www.instagram.com">Instagram</a></li>
+  
+  
+  </ul>
+</nav>
+
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+<h1>Is Nebraska&#39;s Defensive Play Improving in the Big Ten?</h1>
+
+<h3>Sam
+  /  2021-04-08</h3>
+<hr>
+
+
+      </header>
+
+
+
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Nebraska football and its fan base hasn’t had much to cheer about as of late. The last three seasons of Scott Frost’s tenure has only resulted in around three to four wins each season. While last years win record was an improvement to 4 wins overall, it doesn’t place Nebraska anywhere near the conversation when it comes to championships. However, people watching at home this season saw the defense improve, which gives the fans reason for hope. But just how much did the defense improve, when there is so many good teams already in the Big Ten? Lets take a look.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
+## ✓ tibble  3.0.5     ✓ dplyr   1.0.4
+## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>correlations &lt;- read_csv(&quot;footballlogs20.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   .default = col_double(),
+##   Date = col_date(format = &quot;&quot;),
+##   HomeAway = col_character(),
+##   Opponent = col_character(),
+##   Result = col_character(),
+##   TeamFull = col_character(),
+##   TeamURL = col_character(),
+##   Outcome = col_character(),
+##   Team = col_character(),
+##   Conference = col_character()
+## )
+## ℹ Use `spec()` for the full column specifications.</code></pre>
+<p>The data set I will be working with is the data from footballgamelogs from the 2020 season. I want to see how Nebraska’s defense improved,so I will be looking at two factors. This will be the amount of rushing yards on defense that Nebraska has given up, (DefRushingYds) and the amount of passing yards on defense that Nebraska has given up which is (DefPassingYds.)</p>
+<pre class="r"><code>newcorrelations &lt;- correlations %&gt;%  mutate( differential = DefRushingYds - DefPassingYds, TotalDefRushingYds = RushingAtt + RushingYds, TotalDefPassingYds = PassingAtt+PassingYds )</code></pre>
+<p>However, first we must quantify the relationship between defensive passing yards and its relationship to the game of football. More specifically, I will talk about how passing yards changes according to the difference that is shown between the differential of defensive rushing yards and defensive passing yards. This will be accomplished by making scatter plots that show the not only show the correlation between the two values, but allow us to see how these values change the course of the football game. Now lets have a look at the plot.</p>
+<p>When I accounted for defensive passing yards and its change over time, the plot shows us that this has an indifferent relationship when it comes to football. However, several dots from the plot go upwards, which suggests a positive change between the differential.</p>
+<pre class="r"><code>ggplot(newcorrelations, aes(x = differential, y= DefPassingYds)) +
+  geom_point()</code></pre>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>We can see this positive relationship that is shown in the data by looking at its significance. This is around -0.02 according to the summary of the data. This shows that the value of defensive passing yards is statistically significant and matters in the Big Ten Conference and across other football leagues as well.</p>
+<pre class="r"><code>fit &lt;- lm(differential ~ DefPassingYds, data = newcorrelations)
+
+summary(fit)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = differential ~ DefPassingYds, data = newcorrelations)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -188.15  -63.66   -9.57   55.15  387.47 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   208.67987    6.79670   30.70   &lt;2e-16 ***
+## DefPassingYds  -1.18818    0.02691  -44.15   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 86.26 on 1098 degrees of freedom
+## Multiple R-squared:  0.6397, Adjusted R-squared:  0.6394 
+## F-statistic:  1949 on 1 and 1098 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>However, while we have looked at defensive passing yards and its significance in the data, we must determine if the value of defensive rushing yards are significant as it relates to the Big Ten Conference. By just looking at the plot, we see that defensive rushing yards don’t play as big of a factor in the Big Ten. We can assume that this is the case because the dots in the plot are spread around the bottom of the data and are going downwards. This suggests that there is a negative relationship developing. We can check for sure in the summary of the data below, in its significance to the plot.</p>
+<pre class="r"><code>ggplot(newcorrelations, aes(x = differential, y= DefRushingYds)) +
+  geom_point()</code></pre>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>fit &lt;- lm(differential ~ DefRushingYds, data = newcorrelations)
+
+summary(fit)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = differential ~ DefRushingYds, data = newcorrelations)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -374.96  -61.68    5.63   68.03  237.20 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   -270.6673     6.0534  -44.71   &lt;2e-16 ***
+## DefRushingYds    1.2266     0.0324   37.86   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 94.65 on 1098 degrees of freedom
+## Multiple R-squared:  0.5662, Adjusted R-squared:  0.5658 
+## F-statistic:  1433 on 1 and 1098 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>On first glance of the summary that is created by designing a model, we can accurately predict that the the relationship between defensive rushing yards and its importance to the Big Ten is not a big deciding factor when it comes to the outcome of the game. This is the case because it is very close to being significant. Sadly it is not as signifcant according to the data. It is just above the cutoff around 0.56. However, we can dispute the claim made by the data because defensive rushing yards are important to a good defense in the Big Ten.</p>
+<p>Now that we have analyzed the significance of defensive rushing yards and defensive passing yards as it relates to whether significance has been seen, we can look at how Nebraska fared against one of its top opponents in the Big Ten. As we all might exepect, it is Ohio State. I want to find the difference and compare these two teams and how they matched up in their game. This was possible, because I created two waffle charts which showed Ohio State’s defensive rushing totals. I also calculated their passing yard totals as it relates to Nebraska’s.</p>
+<pre class="r"><code>footballlogs20 &lt;- read_csv(&quot;footballlogs20.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   .default = col_double(),
+##   Date = col_date(format = &quot;&quot;),
+##   HomeAway = col_character(),
+##   Opponent = col_character(),
+##   Result = col_character(),
+##   TeamFull = col_character(),
+##   TeamURL = col_character(),
+##   Outcome = col_character(),
+##   Team = col_character(),
+##   Conference = col_character()
+## )
+## ℹ Use `spec()` for the full column specifications.</code></pre>
+<pre class="r"><code>football &lt;- footballlogs20 %&gt;%
+  filter(TeamFull == &quot;Nebraska Cornhuskers&quot;) %&gt;%
+  group_by(TeamFull) %&gt;%
+  summarise(DefRushingYds = sum(DefRushingYds)) %&gt;%
+  arrange(desc(DefRushingYds)) 
+football &lt;- footballlogs20 %&gt;%
+  filter(TeamFull == &quot;Nebraska Cornhuskers&quot;) %&gt;%
+  group_by(TeamFull) %&gt;%
+  summarise(DefRushingYds = sum(DefPassingYds)) %&gt;%
+  arrange(desc(DefRushingYds)) 
+
+
+football &lt;- footballlogs20 %&gt;%
+  filter(TeamFull == &quot;Ohio State Buckeyes&quot;) %&gt;%
+  group_by(TeamFull) %&gt;%
+  summarise(DefRushingYds = sum(DefRushingYds)) %&gt;%
+  arrange(desc(DefRushingYds)) 
+
+football &lt;- footballlogs20 %&gt;%
+  filter(TeamFull == &quot;Ohio State Buckeyes&quot;) %&gt;%
+  group_by(TeamFull) %&gt;%
+  summarise(DefPassingYds = sum(DefPassingYds)) %&gt;%
+  arrange(desc(DefPassingYds)) 
+
+
+library(waffle)
+
+
+
+rushing &lt;- c(&quot;Nebraska&quot;=1356, &quot;Ohio State&quot;=624)
+
+waffle(
+  rushing/10,
+  rows = 11,
+  title = &quot;Nebraska vs Ohio State: rushing defense&quot;,
+  xlab = &quot;1 square = 1000 yard&quot;,
+  colors = c(&quot;red&quot;, &quot;grey&quot;)) + labs(title=&quot;Nebraska vs Ohio State in rushing defense&quot;, subtitle=&quot;The Huskers stuffed the run against one of the top teamis in the Big Ten.&quot;, caption=&quot;Source: NCAA | Graphic by Samuel Rowland&quot;) + 
+  theme()</code></pre>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>passing &lt;- c(&quot;Nebraska&quot;=1736, &quot;Ohio State&quot;=1965)
+
+waffle(
+  passing/10,
+  rows = 10,
+  title = &quot;Nebraska vs Ohio State: passing defense&quot;,
+  xlab = &quot;1 square = 1000 yard&quot;,
+  colors = c(&quot;red&quot;, &quot;grey&quot;))  + labs(title=&quot;Nebraska vs Ohio State in passing defense&quot;, subtitle=&quot;Ohio State dominated with multiple explosive weapons on offense.&quot;, caption=&quot;Source: NCAA | Graphic by Samuel Rowland&quot;) + 
+  theme()</code></pre>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<pre class="r"><code>library()</code></pre>
+<p>Based on the two charts, Nebraska clearly had dominated Ohio State in terms of rushing defense and the yards that they had given up.However, the clear discrepancy lies is in the fact that Ohio State dominated the passing defense yards statistic. It’s pretty obvious that Nebraska has to get better in this area in future seasons in order for the program to stay relevant. Nebraska hasn’t done a good job in the last few years of defending the pass. It’s why we lose games often, and have a losing record as a result of poor defense.</p>
+<pre class="r"><code>library(tidyverse)
+
+library(kableExtra)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     group_rows</code></pre>
+<pre class="r"><code>library(formattable)
+
+
+football &lt;- footballlogs20 %&gt;%
+  filter(Conference==&quot;Big Ten Conference&quot;) %&gt;% 
+  group_by(TeamFull) %&gt;%
+  summarise(DefPassingYds = sum(DefPassingYds),
+            DefRushingYds=sum(DefRushingYds))  %&gt;%      
+           arrange(desc(DefPassingYds)) %&gt;% arrange(desc(DefRushingYds)) %&gt;% ungroup() %&gt;% top_n(14)</code></pre>
+<pre><code>## Selecting by DefRushingYds</code></pre>
+<pre class="r"><code>football %&gt;%
+  kable(escape=F) %&gt;% 
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;)) %&gt;%
+  row_spec(1, bold = T, color = &quot;white&quot;, background = &quot;#FBB93C&quot;) %&gt;%
+  column_spec(1, bold=T) %&gt;% labs(title=&quot; Nebraska is middle of the pack in terms of passing defense&quot;, subtitle=&quot; However, Nebraska was stout in the run.&quot;) %&gt;% save_kable(&quot;nebraska2.pdf&quot;)</code></pre>
+<pre><code>## Note that HTML color may not be displayed on PDF properly.</code></pre>
+<pre><code>## save_kable will have the best result with magick installed.</code></pre>
+<p><img src="/post/2021-03-30-nebraska-s-offensive-progression-throughout-the-season/SamuelRowlandPlots_files/example_image.png" /></p>
+<p>Finally, I made a table that documents Nebraska’s defensive passing yards and the statistic of defensive rushing yards. Additionally, I highlighted and tried to confirm where Nebraska was with their defense in comparison to the rest of the Big Ten. This provides a marker of where Nebraska needs to focus its efforts in order to succeed in the Big Ten. Lets look at the plot down below and talk about it.</p>
+<p>While the plot does a good job of representing Nebraska as one of the teams that was in the middle of the road when it comes to its stature in the defensive passing yards category, Nebraska had improved in the concept of rush defense yards. Nebraska’s defense has become stout against the run, which is something that the Huskers haven’t had success with in recent years. Hopefully Nebraska can develop a good defensive strategy with coach Erik Chinander in the upcoming season.</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="/post/2021/04/08/test-post/">Test Post</a></span>
+  <span class="nav-next"></span>
+</nav>
+
+
+
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+  
+  <hr>
+  <div class="copyright">© <a href="https://yihui.name">SamuelRowland</a> 2021 | <a href="https://github.com/samuelrow">Github</a> |</div>
+  
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
